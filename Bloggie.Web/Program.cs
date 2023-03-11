@@ -1,8 +1,13 @@
 
+using Bloggie.Web.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args); // Container. Sisteme giriþ yapýyoruz.
 
 // Container'a servis eklediðimiz kýsým.
 builder.Services.AddControllersWithViews();
+// DbContexti builder özelliðini kullanarak çaðýrma.
+builder.Services.AddDbContext<BloggieDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("BloggieDbConnectionString")));
 
 //Middle-ware
 var app = builder.Build();
