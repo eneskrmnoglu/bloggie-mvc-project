@@ -33,6 +33,7 @@ namespace Bloggie.Web.Controllers
             return View("Add");
         }
 
+        //Veri tabanındaki verileri liste halinde tuttuk.
         [HttpGet]
         public IActionResult List()
         {
