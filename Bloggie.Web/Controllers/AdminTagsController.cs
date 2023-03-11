@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Bloggie.Web.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Bloggie.Web.Controllers
 {
@@ -11,12 +12,10 @@ namespace Bloggie.Web.Controllers
         }
 
         [HttpPost]
-        [ActionName("Add")] //Data annotation ile farklı bir isim verirken aynı action'ı çalıştırması gerekiyor. O yüzden bu şekilde kullanım yapıyoruz.
-        public IActionResult SubmitTag()
+        public IActionResult Add(AddTagRequest addTagRequest)
         {
-            var name = Request.Form["name"]; // Formdan gelen verileri tuttuk.
-            var displayName = Request.Form["displayName"];
-
+            var name = addTagRequest.Name;
+            var displayName = addTagRequest.DisplayName;
             return View("Add");
         }
 
