@@ -80,9 +80,20 @@ namespace Bloggie.Web.Controllers
             bloggieDbContext.SaveChanges();
                 return RedirectToAction("List");
             }
-            return View("Edit", new { Id = editTagRequest.Id});
+            return View("Edit", new { Id = editTagRequest.Id});  
+        }
 
-            
+        [HttpPost]
+        public IActionResult Delete(EditTagRequest editTagRequest)
+        {
+            var tag = bloggieDbContext.Tags.Find(editTagRequest.Id);
+            if(tag != null)
+            {
+                bloggieDbContext.Remove(tag);
+                bloggieDbContext.SaveChanges();
+                return RedirectToAction("List");
+            }
+            return View();
         }
 
 
