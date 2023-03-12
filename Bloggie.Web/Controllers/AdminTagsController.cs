@@ -11,8 +11,6 @@ namespace Bloggie.Web.Controllers
     {
         private readonly ITagInterface tagRepository;
 
-        //Dependency Injection --> Daha öncesinde DbContext'e özgü bir class tanımladık ve program.cs içerisinde bu classı service özelliklerinden uyglamamıza tanıttık. Bunu yqpmaktaki amacımız ihtiyaç duyulan herhangi bir nesne içerisinde ihtiyaç duyduğumuz bu nesneyi çağırabilmek. Ve nesnenin içerisinde yeniden bu dbcontexi oluşturmadan, mevcutta olan dbcontext üzerine erişim sağlamaktı. Yani DbConteximizi istediğimiz her classa enjekte edebiliyoruz. Bu işleme dependency injection denmektedir. Bu örnekte bunu kullanabilmek için mevcut classımızda bir constructor oluşturduk ve parametre olarak Dbcontext nesnemizden bir argüman yolladık. Bu argüman classın tamamında kullanılamayacağı için bir private field oluşturduk ve bu field ile constructordan gelen argümanı eşitleyerek classımız içerisinde field'ımız üzerinden dbcontext nesnesini kullanabiliyor hale geldik. 
-
         public AdminTagsController(ITagInterface tagRepository)
         {
             this.tagRepository = tagRepository;
