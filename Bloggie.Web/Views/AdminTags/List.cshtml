@@ -4,36 +4,45 @@
 
 <div class="bg-secondary bg-opacity-10 py-2">
     <div class="container">
-        <h1>Add New Tag - Admin Functionality</h1>
+        <h1>List All Tags - Admin Functionality</h1>
     </div>
 </div>
 
 <div class="container py-5">
     @if (Model != null && Model.Any())
     {
+
         <table class="table table-dark table-striped table-hover">
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>Name</th>
                     <th>Display Name</th>
+                    <th>Operation</th>
                 </tr>
             </thead>
 
             <tbody>
-                @foreach(var item in Model)
+                @foreach (var tag in Model)
                 {
                     <tr>
-                        <th>@item.Id</th>
-                        <th>@item.Name</th>
-                        <th>@item.DisplayName</th>
+                        <th>@tag.Id</th>
+                        <th>@tag.Name</th>
+                        <th>@tag.DisplayName</th>
+                        <th> <a class="btn btn-warning" asp-controller="AdminTags" asp-action="Edit" asp-route-id="@tag.Id">Edit</a></th>
                     </tr>
+
                 }
             </tbody>
         </table>
+
     }
     else
     {
         <h1>There is no spoon :)</h1>
+
     }
 </div>
+
+
+

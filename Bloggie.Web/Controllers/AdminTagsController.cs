@@ -30,7 +30,7 @@ namespace Bloggie.Web.Controllers
             };
             bloggieDbContext.Add(tag);
             bloggieDbContext.SaveChanges();
-            return View("Add");
+            return RedirectToAction("List");
         }
 
         //Veri tabanındaki verileri liste halinde tuttuk.
@@ -39,6 +39,13 @@ namespace Bloggie.Web.Controllers
         {
             var tags = bloggieDbContext.Tags.ToList();
             return View(tags);
+        }
+
+        //Edit sayfasının görüntülenme(get) actionı.
+        [HttpGet]
+        public IActionResult Edit()
+        {
+            return View();
         }
 
 
