@@ -43,9 +43,46 @@ namespace Bloggie.Web.Controllers
 
         //Edit sayfasının görüntülenme(get) actionı.
         [HttpGet]
-        public IActionResult Edit()
+        public IActionResult Edit(Guid id)
         {
-            return View();
+            //1.metot
+            //var tag = bloggieDbContext.Tags.Find(id);
+
+            //2.metot
+            var tag = bloggieDbContext.Tags.FirstOrDefault(x => x.Id == id);
+
+            if(tag != null)
+            {
+                var editTagReq = new EditTagRequest
+                {
+                    Id = tag.Id,
+                    Name = tag.Name,
+                    DisplayName = tag.DisplayName
+                };
+                return View(editTagReq);
+            }
+            return View(null);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(EditTagRequest editTagRequest, Guid id)
+        {
+            var beforeTag = bloggieDbContext.Tags.FirstOrDefault(x => x.Id == id);
+            var newtag = new Tag
+            {
+                Name = editTagRequest.Name,
+                DisplayName = editTagRequest.DisplayName
+            };
+            if(beforeTag != null)
+            { 
+            beforeTag.Name = newtag.Name;
+            beforeTag.DisplayName = newtag.DisplayName;
+            bloggieDbContext.SaveChanges();
+                return RedirectToAction("List");
+            }
+            return View("Edit", new { Id = editTagRequest.Id});
+
+            
         }
 
 
