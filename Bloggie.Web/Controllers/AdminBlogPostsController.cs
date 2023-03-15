@@ -154,8 +154,8 @@ namespace Bloggie.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(EditBlogPostRequest editBlogPostRequest)
         {
-            var deletedTag = await blogPostRepository.DeleteAsync(editBlogPostRequest.Id);
-            if (deletedTag != null)
+            var deletedPost = await blogPostRepository.DeleteAsync(editBlogPostRequest.Id);
+            if (deletedPost != null)
             {
 
                 //success notification

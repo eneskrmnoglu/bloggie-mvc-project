@@ -23,13 +23,13 @@ namespace Bloggie.Web.Repositories
 
         public async Task<BlogPost?> DeleteAsync(Guid id)
         {
-            var existingTag = await bloggieDbContext.BlogPosts.FindAsync(id);
+            var existingBlog = await bloggieDbContext.BlogPosts.FindAsync(id);
 
-            if (existingTag != null)
+            if (existingBlog != null)
             {
-                bloggieDbContext.Remove(existingTag);
+                bloggieDbContext.Remove(existingBlog);
                 await bloggieDbContext.SaveChangesAsync();
-                return existingTag;
+                return existingBlog;
             }
             return null;
         }
