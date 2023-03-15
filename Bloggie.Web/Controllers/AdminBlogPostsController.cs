@@ -55,8 +55,8 @@ namespace Bloggie.Web.Controllers
             {
                 var selectedTagIdAsGuid = Guid.Parse(selectedTagId);
                 var existingTag = await tagRepository.GetAsync(selectedTagIdAsGuid);
-                
-                if(existingTag != null)
+
+                if (existingTag != null)
                 {
                     selectedTags.Add(existingTag);
                 }
@@ -78,13 +78,13 @@ namespace Bloggie.Web.Controllers
         }
 
         [HttpGet]
-      
+
         public async Task<IActionResult> Edit(Guid id)
         {
             var blogPost = await blogPostRepository.GetAsync(id);
             var tagsFromDomainModel = await tagRepository.GetAllAsync();
 
-            if(blogPost != null)
+            if (blogPost != null)
             {
                 var model = new EditBlogPostRequest
                 {
@@ -108,7 +108,7 @@ namespace Bloggie.Web.Controllers
                 return View(model);
             }
             return View(null);
-            
+
         }
 
         [HttpPost]
@@ -129,12 +129,12 @@ namespace Bloggie.Web.Controllers
             };
 
             var selectedTags = new List<Tag>();
-            foreach(var selectedTag in editBlogPostRequest.SelectedTags)
+            foreach (var selectedTag in editBlogPostRequest.SelectedTags)
             {
-                if(Guid.TryParse(selectedTag, out var tag))
+                if (Guid.TryParse(selectedTag, out var tag))
                 {
                     var foundTag = await tagRepository.GetAsync(tag);
-                    if(foundTag != null)
+                    if (foundTag != null)
                     {
                         selectedTags.Add(foundTag);
                     }
@@ -144,10 +144,25 @@ namespace Bloggie.Web.Controllers
 
             // Submit işlemi
             var updatedBlog = await blogPostRepository.UpdateAsync(blogPostDomainModel);
-            if(updatedBlog != null)
+            if (updatedBlog != null)
             {
                 return RedirectToAction("List");
             }
+            return RedirectToAction("Edit", new { id = editBlogPostRequest.Id });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(EditBlogPostRequest editBlogPostRequest)
+        {
+            var deletedTag = await blogPostRepository.DeleteAsync(editBlogPostRequest.Id);
+            if (deletedTag != null)
+            {
+
+                //success notification
+                return RedirectToAction("List");
+            }
+
+            //error notification
             return RedirectToAction("Edit", new { id = editBlogPostRequest.Id });
         }
 
