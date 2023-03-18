@@ -13,9 +13,9 @@ namespace Bloggie.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(string urlHandle)
+        public async Task<IActionResult> Index(string urlHandle)
         {
-            var blogPost = blogPostRepository.GetByUrlHandleAsync(urlHandle);
+            var blogPost = await blogPostRepository.GetByUrlHandleAsync(urlHandle);
             return View(blogPost);
         }
     }
