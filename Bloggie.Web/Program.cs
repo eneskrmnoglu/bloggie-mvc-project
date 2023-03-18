@@ -1,6 +1,7 @@
 
 using Bloggie.Web.Data;
 using Bloggie.Web.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args); // Container. Sisteme giriþ yapýyoruz.
@@ -9,6 +10,10 @@ var builder = WebApplication.CreateBuilder(args); // Container. Sisteme giriþ ya
 builder.Services.AddControllersWithViews();
 // DbContexti builder özelliðini kullanarak çaðýrma.
 builder.Services.AddDbContext<BloggieDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("BloggieDbConnectionString")));
+
+builder.Services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("BloggieAuthDbConnectionString")));
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AuthDbContext>();
 
 builder.Services.AddScoped<ITagInterface, TagRepository>();
 builder.Services.AddScoped<IBlogPostRepository, BlogPostRepository>();
@@ -30,6 +35,7 @@ app.UseStaticFiles(); // Statik dosyalarý kullanmana izin veriyor
 
 app.UseRouting(); // Routing'e izin veren kod. Sayfalar arasý geçiþlere izin veriyor.
 
+app.UseAuthentication();
 app.UseAuthorization(); // Yetkilendirme.
 
 app.MapControllerRoute( // Rotalama sistemi.
