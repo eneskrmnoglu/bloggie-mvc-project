@@ -46,9 +46,10 @@ namespace Bloggie.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Login()
+        public async Task<IActionResult> Login(string ReturnUrl)
         {
-            return View();
+            var model = new LoginViewModel { ReturnUrl = ReturnUrl };
+            return View(model);
         }
 
         [HttpPost]
@@ -58,7 +59,10 @@ namespace Bloggie.Web.Controllers
 
             if(signInResult.Succeeded && signInResult != null) 
             {
-                return RedirectToAction("Index", "Home");
+                if (!string.IsNullOrWhiteSpace(loginViewModel.ReturnUrl))
+                {
+                    return Redirect(loginViewModel.ReturnUrl);
+                }
             }
             return View();
         }
