@@ -63,5 +63,17 @@ namespace Bloggie.Web.Controllers
             return View();
         }
 
+        
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
     }
 }
